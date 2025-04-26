@@ -1,4 +1,9 @@
 const bcrypt = require('bcrypt');
+// ВРЕМЕННЫЙ ВЫВОД! УДАЛИ ПОСЛЕ ПРОВЕРКИ
+bcrypt.hash('yourpassword', 10).then(hash => {
+  console.log('👉 Хеш пароля yourpassword:', hash);
+});
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
@@ -47,6 +52,7 @@ exports.registerTootaja = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(parool, 10);
 
+
     const tootaja = await Tootaja.create({
       nimi,
       perekonnanimi,
@@ -89,6 +95,8 @@ exports.login = async (req, res) => {
 
     const valid = await bcrypt.compare(password, user.parool);
     if (!valid) return res.status(401).json({ message: 'Wrong password' });
+    
+    
 
     const token = jwt.sign(
       {
@@ -114,3 +122,26 @@ exports.login = async (req, res) => {
   }
 };
 
+exports.devRegisterManager = async (req, res) => {
+  try {
+    const { nimi, perekonnanimi, email, telefon, parool } = req.body;
+
+    const existing = await Tootaja.findOne({ where: { email } });
+    if (existing) return res.status(400).json({ message: 'Email already in use' });
+
+    const hashedPassword = await bcrypt.hash(parool, 10);
+
+    const manager = await Tootaja.create({
+      nimi,
+      perekonnanimi,
+      email,
+      telefon,
+      parool: hashedPassword,
+      roll_id: 1 // ID роли Manager
+    });
+
+    res.status(201).json({ message: 'Manager registered (DEV)', tootaja_id: manager.tootaja_id });
+  } catch (err) {
+    res.status(500).json({ message: 'Manager registration failed', error: err.message });
+  }
+};

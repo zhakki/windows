@@ -9,4 +9,8 @@ router.get('/me', verifyToken, authorizeRoll(['Manager', 'SalesManager', 'Instal
 
 router.put('/me', verifyToken, authorizeRoll(['Manager', 'SalesManager', 'Installer', 'Measurer', 'Owner']), tootajaController.updateMyProfile);
 
+
+// Менеджеры могут видеть всё
+router.get('/all', verifyToken, authorizeRoll(['Manager', 'SalesManager']), tootajaController.getAllTootajad);
+
 module.exports = router;

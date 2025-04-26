@@ -9,10 +9,14 @@ const Arve = sequelize.define('Arve', {
   },
   tellimus_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
-    makse_kuupaev: DataTypes.DATE,
-    summa: DataTypes.NUMERIC
+    allowNull: false
   },
+  makse_kuupaev: {
+    type: DataTypes.DATE
+  },
+  summa: {
+    type: DataTypes.NUMERIC
+  }
 }, {
   tableName: 'arve',
   schema: 'windows_sale',
@@ -20,3 +24,4 @@ const Arve = sequelize.define('Arve', {
 });
 
 module.exports = Arve;
+

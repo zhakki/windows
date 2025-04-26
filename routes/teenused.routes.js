@@ -9,4 +9,8 @@ router.get('/', teenusedController.getAll);
 // Добавить новую услугу (только менеджеры)
 router.post('/', verifyToken, authorizeRoll(['Manager', 'SalesManager']), teenusedController.create);
 
+
+
+
+
 module.exports = router;
