@@ -7,13 +7,11 @@ const { verifyToken, authorizeRoll } = require('../middleware/authJwt'); // 💥
 // ✅ Регистрация клиента (открыта)
 router.post('/register-klient', authController.registerKlient);
 
-// ✅ Регистрация сотрудника (только менеджер)
-router.post(
-  '/register-tootaja',
-  verifyToken,
-  authorizeRoll('Manager'), // 🛡 Проверка роли
-  authController.registerTootaja
-);
+// ВРЕМЕННО открыть регистрацию сотрудника
+// ⚠️ ВРЕМЕННЫЙ ЭНДПОИНТ ДЛЯ РЕГИСТРАЦИИ МЕНЕДЖЕРА БЕЗ ТОКЕНА
+router.post('/dev-register-manager', authController.devRegisterManager);
+
+
 
 // ✅ Логин (общий)
 router.post('/login', authController.login);

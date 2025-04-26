@@ -10,4 +10,12 @@ router.get('/my', verifyToken, authorizeRoll('Client'), tellimusController.getMy
 // Менеджеры могут видеть всё
 router.get('/all', verifyToken, authorizeRoll(['Manager', 'SalesManager']), tellimusController.getAllOrders);
 
+
+// Получение одного заказа по ID — только менеджер или продавец
+router.get('/:id', verifyToken, authorizeRoll(['Manager', 'SalesManager']), tellimusController.getOrderById);
+
+// Менеджер назначает работника на заказ
+router.put('/:id/assign-worker', verifyToken, authorizeRoll(['Manager', 'SalesManager']), tellimusController.assignWorker);
+
+
 module.exports = router;

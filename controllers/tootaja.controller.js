@@ -47,3 +47,18 @@ exports.updateMyProfile = async (req, res) => {
     res.status(500).json({ message: 'Failed to update worker profile', error: err.message });
   }
 };
+
+
+
+
+exports.getAllTootajad = async (req, res) => {
+  try {
+    const users = await Tootaja.findAll({
+      attributes: { exclude: ['parool'] },
+      include: { model: Roll, foreignKey: 'roll_id' }
+    });
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ message: 'Ошибка при получении сотрудников', error: err.message });
+  }
+};
